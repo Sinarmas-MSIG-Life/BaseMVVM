@@ -1,7 +1,8 @@
-package com.rifafauzi.basemvvm
+package com.rifafauzi.basemvvm.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.rifafauzi.basemvvm.R
 
 class MainActivity : AppCompatActivity() {
 
