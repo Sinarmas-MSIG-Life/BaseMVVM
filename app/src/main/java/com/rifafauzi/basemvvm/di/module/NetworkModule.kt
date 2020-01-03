@@ -1,15 +1,21 @@
 package com.rifafauzi.basemvvm.di.module
 
 import android.app.Application
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.rifafauzi.basemvvm.BuildConfig
+import com.rifafauzi.basemvvm.utils.DEFAULT_CONNECT_TIMEOUT
+import com.rifafauzi.basemvvm.utils.DEFAULT_READ_TIMEOUT
+import com.rifafauzi.basemvvm.utils.DEFAULT_WRITE_TIMEOUT
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -36,11 +42,42 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, cache: Cache) : OkHttpClient {
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, cache: Cache, authInterceptor: Interceptor) : OkHttpClient {
         val client = OkHttpClient.Builder()
+        client.connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
+        client.writeTimeout(DEFAULT_WRITE_TIMEOUT, TimeUnit.MILLISECONDS)
+        client.readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.MILLISECONDS)
         client.cache(cache)
         client.addInterceptor(loggingInterceptor)
+        client.addInterceptor(authInterceptor)
         return client.build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(): Interceptor {
+
+        return Interceptor { chain ->
+
+            val request = chain.request()
+                .url()
+                .newBuilder()
+                .addQueryParameter("api_key", BuildConfig.API_KEY)
+                .build()
+
+            val newRequest = chain.request()
+                .newBuilder()
+                .url(request)
+                .build()
+
+            chain.proceed(newRequest)
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder().serializeNulls().create()
     }
 
     @Provides
@@ -49,11 +86,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient) : Retrofit {
+    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient, gson: Gson) : Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
     }

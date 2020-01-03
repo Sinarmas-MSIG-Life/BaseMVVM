@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BaseMVVM</string>
+    <string name="timeout">Sorry, RTO</string>
+    <string name="unknown_error">Sorry, Unknown Error</string>
 </resources>

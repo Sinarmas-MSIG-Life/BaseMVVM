@@ -1,26 +1,19 @@
 package com.rifafauzi.basemvvm.ui.movies
 
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
 import com.rifafauzi.basemvvm.R
+import com.rifafauzi.basemvvm.base.BaseFragment
+import com.rifafauzi.basemvvm.databinding.FragmentMoviesBinding
 
 /**
  * A simple [Fragment] subclass.
  */
-class MoviesFragment : Fragment() {
+class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesViewModel>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movies, container, false)
-    }
+    override fun getViewModelClass(): Class<MoviesViewModel> = MoviesViewModel::class.java
+
+    override fun getLayoutResourceId(): Int = R.layout.fragment_movies
 
 
 }
