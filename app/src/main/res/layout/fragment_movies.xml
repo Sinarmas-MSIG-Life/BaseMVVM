@@ -15,6 +15,14 @@
             name="showData"
             type="Boolean" />
 
+        <variable
+            name="vm"
+            type="com.rifafauzi.basemvvm.ui.movies.MoviesViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.rifafauzi.basemvvm.ui.movies.MoviesFragment" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,14 +30,29 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMovies"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{showData ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/movies_item" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerMovies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{showLoading ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include layout="@layout/shimmer_loading" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -58,8 +58,8 @@ abstract class BaseFragment <B: ViewDataBinding, V: ViewModel> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.setVariable(BR.vm, vm)
-//        binding.setVariable(BR.fragment, this)
+        binding.setVariable(BR.vm, vm)
+        binding.setVariable(BR.fragment, this)
     }
 
     fun snackBar(message: String) = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()

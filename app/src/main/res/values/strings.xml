@@ -2,4 +2,7 @@
     <string name="app_name">BaseMVVM</string>
     <string name="timeout">Sorry, RTO</string>
     <string name="unknown_error">Sorry, Unknown Error</string>
+    <string name="poster">Poster</string>
+    <string name="empty_data">Data Not Found</string>
+    <string name="no_connection">No Internet Connection</string>
 </resources>
