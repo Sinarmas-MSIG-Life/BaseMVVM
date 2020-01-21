@@ -8,9 +8,10 @@
 * [x] Dagger2
 * [x] Shimmer
 * [x] Retrofit
+* [x] Unit Test
 
 ### TODO :
 
-* [ ] Unit Test and Instrument Test
+* [ ] Instrument Test
 * [ ] Remote and Local Repository
 * [ ] Usecase Domain Layer
